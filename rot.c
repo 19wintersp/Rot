@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
 				if (isgraph(thisvalue))
 					fprintf(stderr, "%s: '%c' appears twice\n", argv0, thisvalue);
 				else
-					fprintf(stderr, "%s: {0x%02x} appears twice\n", argv0, thisvalue);
+					fprintf(stderr, "%s: 0x%02x appears twice\n", argv0, thisvalue);
 
 				return 1;
 			}
