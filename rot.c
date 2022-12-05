@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 		puts("  1    argument error");
 		puts("  2    IO error");
 
-		return 0;
+		return argc < 2 ? 1 : 0;
 	}
 
 	if (
