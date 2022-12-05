@@ -19,7 +19,27 @@ int main(int argc, char* argv[]) {
 		strcmp(argv[1], "--help") == 0 ||
 		strcmp(argv[1], "-h") == 0
 	) {
-		//
+		printf("Usage: %s <SHIFT> [ALPHABET]...\n", argv0);
+		puts("Encode by SHIFT from stdin to stdout over ALPHABETs.");
+		puts("Shift over entire 0-255 value range by default.");
+
+		puts("");
+
+		puts("These options can be specified in place of SHIFT:");
+		puts("  -h, --help       display this help text");
+		puts("  -v, --version    display version information");
+
+		puts("");
+
+		puts("SHIFT is an integer, and can be negative (for left shifts).");
+		puts("Multiple ALPHABETs will wrap independently.");
+
+		puts("");
+
+		puts("Exit status:");
+		puts("  0    completed successfully");
+		puts("  1    argument error");
+		puts("  2    IO error");
 
 		return 0;
 	}
