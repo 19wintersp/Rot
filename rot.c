@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,8 +39,8 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	char bset[32] = { 0 };
-	char trans[256] = {
+	uint8_t bset[32] = { 0 };
+	uint8_t trans[256] = {
 		0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   10,  11,  12,  13,  14,  15,
 		16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,
 		32,  33,  34,  35,  36,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47,
@@ -58,7 +59,7 @@ int main(int argc, char* argv[]) {
 		240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 	};
 
-	char buf[256] = { 0 };
+	uint8_t buf[256] = { 0 };
 	int buf_len = 0;
 
 	for (int i = 2; i < argc; i++) {
@@ -89,10 +90,10 @@ int main(int argc, char* argv[]) {
 						('A' <= low && low <= 'F')
 					)
 				) {
-					char value = low <= '9' ? low - '0' : 10 + tolower(low) - 'a';
-					value |= (high <= '9' ? high - '0' : 10 + tolower(high) - 'a') << 4;
-
-					buf[buf_len++] = value;
+					buf[buf_len++] = (uint8_t) (
+						((high <= '9' ? high - '0' : 10 + tolower(high) - 'a') << 4) |
+						(low <= '9' ? low - '0' : 10 + tolower(low) - 'a')
+					);
 				} else {
 					fprintf(stderr, "%s: invalid escape\n", argv0);
 					return 1;
@@ -101,7 +102,7 @@ int main(int argc, char* argv[]) {
 				buf[buf_len++] = argv[i][j];
 			}
 
-			char thisvalue = buf[buf_len - 1];
+			uint8_t thisvalue = buf[buf_len - 1];
 
 			if ((bset[thisvalue >> 3] >> (thisvalue & 0b111)) & 1) {
 				if (isgraph(thisvalue))
