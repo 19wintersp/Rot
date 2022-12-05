@@ -28,7 +28,9 @@ int main(int argc, char* argv[]) {
 		strcmp(argv[1], "--version") == 0 ||
 		strcmp(argv[1], "-v") == 0
 	) {
-		//
+		printf("%s v%s\n", PROGRAM_NAME, PROGRAM_VERSION);
+		puts("Copyright (c) 2022 Patrick Winters");
+		puts("Licensed under the MIT licence.");
 
 		return 0;
 	}
