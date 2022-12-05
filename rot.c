@@ -9,6 +9,8 @@
 #define PROGRAM_NAME    "rot"
 #endif
 
+#define BUFFER_SIZE 131072 // 128KiB
+
 int main(int argc, char* argv[]) {
 	const char* argv0 = argv > 0 ? argv[0] : PROGRAM_NAME;
 
@@ -133,7 +135,23 @@ int main(int argc, char* argv[]) {
 			trans[i] = (i + pos_shift) % 256;
 	}
 
-	//
+	uint8_t read_buf[BUFFER_SIZE] = { 0 };
+	size_t n = 0;
+
+	while ((n = fread(read_buf, 1, BUFFER_SIZE, stdin))) {
+		for (size_t i = 0; i < n; i++)
+			read_buf[i] = trans[read_buf[i]];
+
+		if (fwrite(read_buf, 1, n, stdout) < n) {
+			fprintf(stderr, "%s: output file stream write failed\n", argv0);
+			return 2;
+		}
+	}
+
+	if (ferror(stdin)) {
+		fprintf(stderr, "%s: input file stream error\n", argv0);
+		return 2;
+	}
 
 	return 0;
 }
