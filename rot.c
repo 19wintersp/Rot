@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	char* str_end = NULL;
-	int shift = strtol(argv[1], &str_end, 10);
+	signed long shift = strtol(argv[1], &str_end, 10);
 
 	if (str_end == argv[1]) {
 		fprintf(stderr, "%s: invalid shift value\n", argv0);
@@ -116,13 +116,21 @@ int main(int argc, char* argv[]) {
 			bset[thisvalue >> 3] |= 1 << (thisvalue & 0b111);
 		}
 
-		//
+		signed long pos_shift = shift;
+		while (pos_shift < 0) pos_shift += buf_len;
+
+		for (int j = 0; j < buf_len; j++)
+			trans[buf[j]] = buf[(j + pos_shift) % buf_len];
 
 		buf_len = 0;
 	}
 
 	if (argc == 2) {
-		//
+		signed long pos_shift = shift;
+		while (pos_shift < 0) pos_shift += 256;
+
+		for (int i = 0; i < 256; i++)
+			trans[i] = (i + pos_shift) % 256;
 	}
 
 	//
